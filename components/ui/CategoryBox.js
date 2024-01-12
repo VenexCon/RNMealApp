@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 
-export default function CategoryBox({ title, color }) {
+export default function CategoryBox({ title, color, onPress }) {
   return (
     <View
       style={[
@@ -8,7 +8,15 @@ export default function CategoryBox({ title, color }) {
         { backgroundColor: color, borderColor: color },
       ]}
     >
-      <Text>{title}</Text>
+      <Pressable
+        android_ripple={{ color: "#ccc", foreground: "yes" }}
+        style={styles.button}
+        onPress={onPress}
+      >
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      </Pressable>
     </View>
   );
 }
@@ -17,10 +25,25 @@ const styles = StyleSheet.create({
   screenContainer: {
     height: 150,
     width: 150,
-    borderWidth: 2,
     color: "black",
-    alignItems: "center",
-    justifyContent: "center",
     margin: 10,
+    elevation: 4,
+    shadowColor: "black",
+    shadowOpacity: 5,
+    shadowOffset: { width: 0, height: 2 },
+    overflow: Platform.os === "android" ? "hidden" : "visible",
+    borderRadius: 10,
+  },
+  button: {
+    flex: 1,
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
