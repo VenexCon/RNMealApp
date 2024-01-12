@@ -1,13 +1,35 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import { CATEGORIES } from "../data/data";
 import CategoryBox from "../components/ui/CategoryBox";
 
 export default function CategoriesScreen() {
+  const { width, height } = useWindowDimensions();
+
+  let flatListOrientation = {};
+
+  if (height < 380) {
+    flatListOrientation = {
+      marginVertical: 10,
+      marginHorizontal: "10%",
+    };
+  } else if (height > 380) {
+    flatListOrientation = {
+      marginVertical: "15%",
+      marginHorizontal: "5%",
+    };
+  }
+
   return (
-    <View style={styles.screenContainer}>
+    <View style={[styles.screenContainer, flatListOrientation]}>
       <FlatList
+        contentContainerStyle={styles.flatList}
         numColumns={2}
-        style={styles.flatList}
         data={CATEGORIES}
         renderItem={({ item }) => (
           <CategoryBox title={item.title} color={item.color} />
@@ -21,11 +43,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     flexDirection: "row",
-    marginTop: 100,
   },
   flatList: {
-    flex: 1,
-    borderWidth: 4,
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 14,
   },
 });
