@@ -1,13 +1,23 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { MEALS } from "../data/data";
+import { View, StyleSheet, FlatList } from "react-native";
+import { CATEGORIES, MEALS } from "../data/data";
 import MealItem from "../components/ui/MealItem";
+import { useEffect } from "react";
 
-export default function MealsOverviewScreen({ route }) {
+//Any component registered as a screen gets passed route and navigation by default.
+export default function MealsOverviewScreen({ route, navigation }) {
   const catId = route.params.categoryId;
 
   const displayedMeals = MEALS.filter((meal) => {
     return meal.categoryIds.indexOf(catId) >= 0;
   });
+
+  //Set options in a useEffect, due to animations
+  useEffect(() => {
+    const categoryTitle = CATEGORIES.find(
+      (category) => category.id === catId
+    ).title;
+    navigation.setOptions({ title: categoryTitle });
+  }, [catId, navigation]);
 
   const renderMealItem = (itemData) => {
     const item = itemData.item;

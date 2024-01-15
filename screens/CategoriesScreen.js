@@ -18,6 +18,7 @@ export default function CategoriesScreen({ navigation }) {
     function pressHandler() {
       navigation.navigate("MealsOverview", {
         categoryId: item.id,
+        title: item.title,
       });
     }
 

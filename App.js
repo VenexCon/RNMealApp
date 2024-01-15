@@ -4,6 +4,7 @@ import CategoriesScreen from "./screens/CategoriesScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
+import MealScreen from "./screens/MealScreen";
 
 const stack = createNativeStackNavigator();
 
@@ -12,9 +13,19 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <stack.Navigator initialRouteName="MealsCategories">
+        <stack.Navigator
+          initialRouteName="MealsCategories"
+          screenOptions={mealsCategoriesOptions}
+        >
           <stack.Screen name="MealsCategories" component={CategoriesScreen} />
-          <stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
+          <stack.Screen
+            name="MealsOverview"
+            component={MealsOverviewScreen}
+            options={({ route, navigation }) => {
+              const { catId } = route.params;
+            }}
+          />
+          <stack.Screen name="MealScreen" component={MealScreen} />
         </stack.Navigator>
       </NavigationContainer>
     </>
@@ -28,3 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const mealsCategoriesOptions = {
+  headerTitleAlign: "center",
+};
