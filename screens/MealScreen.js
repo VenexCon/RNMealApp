@@ -75,12 +75,38 @@ export default function MealScreen({ route, navigation }) {
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
           <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.duration}>
+            Time to Cook: <Text style={styles.durationlength}>{duration}m</Text>
+          </Text>
         </View>
         <View style={styles.allergenContainer}>
           {isVegetarian ? vegetarianIcon : null}
           {isVegan ? veganIcon : null}
           {isGlutenFree ? glutenFreeIcon : null}
           {isLactoseFree ? lactoseFreeIcon : null}
+        </View>
+        <View style={styles.subSection}>
+          <Text style={styles.subHeading}>Ingredients:</Text>
+          {ingredients.map((ingredient, index) => {
+            return (
+              <Text style={styles.subPoint} key={index}>
+                {ingredient}
+              </Text>
+            );
+          })}
+        </View>
+        <View style={styles.subSection}>
+          <Text style={styles.subHeading}>Steps:</Text>
+          {steps.map((step, index) => {
+            return (
+              <View style={styles.stepView}>
+                <Text style={styles.bulletPoint}>{index + 1}</Text>
+                <Text style={styles.subPoint} key={index}>
+                  {step}
+                </Text>
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
     </View>
@@ -108,9 +134,40 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.textPrimary,
   },
+  duration: {
+    fontWeight: "bold",
+  },
+  durationlength: {
+    color: colors.primary,
+  },
   allergenContainer: {
     flexDirection: "row",
     margin: 8,
     justifyContent: "space-around",
+  },
+  subSection: {
+    flex: 1,
+    padding: 10,
+    marginLeft: 10,
+    gap: 2,
+    width: "90%",
+  },
+  subHeading: {
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  subPoint: {
+    marginLeft: 10,
+  },
+  bulletPoint: {
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  stepView: {
+    flexDirection: "row",
+    gap: 4,
+    marginLeft: 10,
+    marginVertical: 10,
+    padding: 10,
   },
 });
