@@ -25,7 +25,15 @@ export default function App() {
               const { catId } = route.params;
             }}
           />
-          <stack.Screen name="MealScreen" component={MealScreen} />
+          <stack.Screen
+            name="MealScreen"
+            component={MealScreen}
+            options={{
+              headerRight: () => {
+                return <Text>In the header</Text>;
+              },
+            }}
+          />
         </stack.Navigator>
       </NavigationContainer>
     </>

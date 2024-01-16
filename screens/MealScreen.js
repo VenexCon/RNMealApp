@@ -5,11 +5,11 @@ import colors from "../constants/colors";
 import IconBox from "../components/ui/IconBox";
 
 export default function MealScreen({ route, navigation }) {
-  useEffect(() => {
+  /* useEffect(() => {
     const mealTitle = MEALS.find((meal) => meal.id === mealId).title;
     navigation.setOptions({ title: mealTitle });
   }, [mealId, navigation]);
-
+ */
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => {
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   subHeading: {
     fontWeight: "bold",
     fontSize: 16,
+    borderBottomWidth: 2,
   },
   subPoint: {
     marginLeft: 10,
