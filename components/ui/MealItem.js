@@ -18,10 +18,10 @@ function MealItem({
   id,
 }) {
   const navigation = useNavigation();
-  console.log(navigation);
+
   function pressHandler() {
     navigation.navigate("MealScreen", {
-      categoryId: id,
+      mealId: id,
     });
   }
 

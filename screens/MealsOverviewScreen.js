@@ -12,6 +12,7 @@ export default function MealsOverviewScreen({ route, navigation }) {
   });
 
   //Set options in a useEffect, due to animations
+  //This achieves the same as setting screen options in the screen.stack element.
   useEffect(() => {
     const categoryTitle = CATEGORIES.find(
       (category) => category.id === catId
