@@ -1,15 +1,38 @@
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { MEALS } from "../data/data";
-import { useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import colors from "../constants/colors";
 import IconBox from "../components/ui/IconBox";
+import IconButton from "../components/ui/IconButton";
+import AllergenModal from "../components/ui/AllergenModal";
 
 export default function MealScreen({ route, navigation }) {
-  /* useEffect(() => {
-    const mealTitle = MEALS.find((meal) => meal.id === mealId).title;
-    navigation.setOptions({ title: mealTitle });
-  }, [mealId, navigation]);
- */
+  /* State */
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const headerButtonPress = () => {
+    console.log("pressed");
+  };
+
+  const allergenModalHandler = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <IconButton
+            onPress={allergenModalHandler}
+            size={30}
+            color={"black"}
+            icon={"information-circle-outline"}
+          />
+        );
+      },
+    });
+  }, [navigation, headerButtonPress]);
+
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => {
@@ -71,6 +94,12 @@ export default function MealScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      {modalVisible ? (
+        <AllergenModal
+          modalVisible={modalVisible}
+          allergenModalHandler={allergenModalHandler}
+        />
+      ) : null}
       <ScrollView>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
