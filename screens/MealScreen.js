@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Button,
+} from "react-native";
 import { MEALS } from "../data/data";
 import { useState, useLayoutEffect } from "react";
 import colors from "../constants/colors";
@@ -136,6 +143,9 @@ export default function MealScreen({ route, navigation }) {
               </View>
             );
           })}
+        </View>
+        <View style={styles.subSection}>
+          <Button title="Favourite" onPress={() => console.log("Favourite")} />
         </View>
       </ScrollView>
     </View>

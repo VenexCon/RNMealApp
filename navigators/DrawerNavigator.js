@@ -6,13 +6,13 @@ export default function DrawerNavigator() {
   const Drawer = createDrawerNavigator();
 
   return (
-    <Drawer.Navigator screenOptions={mealsCategoriesOptions}>
+    <Drawer.Navigator screenOptions={drawerScreenOptions}>
       <Drawer.Screen name="Favourites" component={FavouritesScreen} />
       <Drawer.Screen name="MealsCategories" component={CategoriesScreen} />
     </Drawer.Navigator>
   );
 }
 
-const mealsCategoriesOptions = {
+const drawerScreenOptions = {
   headerTitleAlign: "center",
 };
