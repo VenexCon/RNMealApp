@@ -7,44 +7,48 @@ import {
   Button,
 } from "react-native";
 import { MEALS } from "../data/data";
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useContext } from "react";
 import colors from "../constants/colors";
 import IconBox from "../components/ui/IconBox";
 import IconButton from "../components/ui/IconButton";
 import AllergenModal from "../components/ui/AllergenModal";
+import { FavoriteContext } from "../store/context/favorites-context";
 
 export default function MealScreen({ route, navigation }) {
   /* State */
   const [modalVisible, setModalVisible] = useState(false);
+  const mealId = route.params.mealId;
 
-  const headerButtonPress = () => {
-    console.log("pressed");
-  };
+  const selectedMeal = MEALS.find((meal) => {
+    return meal.id === mealId;
+  });
 
-  const allergenModalHandler = () => {
-    setModalVisible(!modalVisible);
-  };
+  const favoriteMealCtx = useContext(FavoriteContext);
+
+  const mealIsFavorite = favoriteMealCtx.ids.includes(mealId);
+
+  function changeStatusHandler() {
+    if (mealIsFavorite) {
+      favoriteMealCtx.deleteFavorite(mealId);
+    } else {
+      favoriteMealCtx.addFavorite(mealId);
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
-            onPress={allergenModalHandler}
+            onPress={changeStatusHandler}
             size={30}
-            color={"black"}
-            icon={"information-circle-outline"}
+            color={mealIsFavorite ? "gold" : "black"}
+            icon={mealIsFavorite ? "star" : "star-outline"}
           />
         );
       },
     });
-  }, [navigation, headerButtonPress]);
-
-  const mealId = route.params.mealId;
-
-  const selectedMeal = MEALS.find((meal) => {
-    return meal.id === mealId;
-  });
+  }, [navigation, mealIsFavorite]);
 
   const {
     title,
@@ -101,12 +105,6 @@ export default function MealScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {modalVisible ? (
-        <AllergenModal
-          modalVisible={modalVisible}
-          allergenModalHandler={allergenModalHandler}
-        />
-      ) : null}
       <ScrollView>
         <View style={styles.imageContainer}>
           <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -135,7 +133,7 @@ export default function MealScreen({ route, navigation }) {
           <Text style={styles.subHeading}>Steps:</Text>
           {steps.map((step, index) => {
             return (
-              <View style={styles.stepView}>
+              <View key={index} style={styles.stepView}>
                 <Text style={styles.bulletPoint}>{index + 1}</Text>
                 <Text style={styles.subPoint} key={index}>
                   {step}
@@ -143,9 +141,6 @@ export default function MealScreen({ route, navigation }) {
               </View>
             );
           })}
-        </View>
-        <View style={styles.subSection}>
-          <Button title="Favourite" onPress={() => console.log("Favourite")} />
         </View>
       </ScrollView>
     </View>
@@ -208,5 +203,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginVertical: 10,
     padding: 10,
+  },
+  favorite: {
+    fontWeight: "bold",
+    color: "#101be6",
+    padding: 10,
+    borderRadius: 20,
   },
 });
